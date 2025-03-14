@@ -1,0 +1,730 @@
+---
+title: "Your Paper Title Here"
+author: "Casey Lazik, Justin Mai, Harry Schuckman"
+date: Date
+output: pdf_document
+urlcolor: blue
+header-includes:
+- \usepackage{amsmath,amsfonts,amssymb}
+- \usepackage{setspace} \doublespacing
+fontsize: 11pt
+---
+
+```{r setup, include=FALSE}
+#Use this code chunk to include libraries, and set global options.
+
+library(tidyverse)
+library(maxLik)
+library(fastR2)
+
+```
+
+# Abstract
+Write your abstract here.
+
+# Keywords
+*Keyword 1*, *Keyword 2*, *Keyword 3*, *Keyword 4*
+
+\newpage
+
+
+
+# Introduction / Background
+
+This research project was to analyze the efficacy of BNT162b2 COVID-19 Vaccine in comparison to the placebo.
+
+In 2020, when the Coronavirus was at its highest in terms of world impact, scientists were attempting to develop vaccines to reduce the number of COVID-19 cases. To test this, researchers randomly appointed candidates of 16 years old or older to either the placebo dosage or the vaccine dosage called BNT162b2, the ratio of placebo vs. vaccine is 1:1. Both parties (doctors and patients) were unaware of which type of they were given/taken to avoid confirmation bias, known as double-blind trials. Each research group were given 2 dosages, 21 days apart, of their respective shots. Then, after at least 7 days since the candidate receives the 2nd dosage, they were tested to see if they had been infected with COVID-19. They stopped conducting this experiment after **170 total infection cases** were seen.
+
+By using the double-blind trials to leave the type of treatment unknown to both the doctor and the patient, it will remove an idea of "suggestion" to avoid subconscious biases. Generally, for drugs such as the BNT162b2 vaccine to be approved by governments and organizations, even though it takes time, it is a necessary research step to improve and test vaccines (Ryder).
+
+The observed number of cases for each treatment group are as follows
+
+\begin{center}
+\begin{tabular}{||c c c||} 
+ \hline
+ Group & Cases & Sample Size \\ [0.5ex] 
+ \hline\hline
+ BNT162b2 & 8 & 17411 \\ 
+ \hline
+ Placebo & 162 & 17511 \\
+ \hline
+ Total & 170 & 34922 \\
+ \hline
+\end{tabular}
+\end{center}
+
+To demonstrate the ratio between the total number of infections for both groups would be $\frac{8}{170} = 0.047$ of cases in the vaccine group out of the total number of infections and $\frac{162}{170} = 0.953$ of cases in the placebo group out of the total number of infections.
+
+```{r label="intro_chart", eval=TRUE, echo=FALSE, fig.height=4, fig.width=4, fig.align='center'}
+# You can reference your code in the appendix (sample here).
+
+vac_df <- data.frame(Group = c("BNT162b2", "Placebo", "Total"), 
+                     Cases = c(8, 162, 170), 
+                     Sample_size = c(17411, 17511, 34922))
+
+vac_df_wide <- data.frame(BNT162b2 = c(8, 17411), 
+                          Placebo = c(162, 17511), 
+                          Total = c(170,34922))
+
+vac_df %>% 
+  filter(Group == "BNT162b2" | Group == "Placebo") %>% 
+  mutate(infected_ratio = Cases/170) %>% 
+  ggplot(aes(x = "", y = infected_ratio, fill = Group)) + 
+  geom_bar(stat="identity", width=1, color="white") +
+  coord_polar("y", start=0)
+```
+
+Based off this sample, we can see that the vaccine is effective in preventing infection of COVID-19 in comparison to the placebo. However, to truly test this, we will use both a likelihood inference and baysian inference to confirm this result.
+
+# Statistical Methods
+
+## Model
+
+
+
+$T\sim Binom(\pi, n=170)$
+
+$\pi = \frac{\pi_v}{\pi_v+ \pi_p}$
+
+
+## Parameters
+
+$\psi=\frac{1-2\pi}{1-\pi}$
+
+$\psi$ represents the efficacy of the two-dose vaccine (BNT162b2). This is how much this vaccine reduces the risk for SARS-Cov-2 (“COVID-19”).
+
+
+
+
+$\pi=\frac{\psi^*-1}{\psi^*-2}$
+
+We then have $\pi$ as the probability of a patient having taken the vaccine given they had COVID-19 (P(Vaccine | COVID-19)).
+
+
+
+$\pi=\frac{\pi_v}{\pi_v+\pi_p}$
+
+
+
+
+We can model our problem by having T denote the number of people in the COVID-19 group that had the SARS vaccine.
+
+
+$T\sim Binom(\pi, n=170)$ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ n=170 from data
+
+
+Given $\pi = \frac{\pi_V}{\pi_V + \pi_p}$ where $\pi_V$ and $\pi_p$ are the probabilities of an infection in the vaccine and placebo groups respectively.
+
+
+
+
+# *Frequentist Method*
+
+
+
+
+## Confidence Interval
+
+(Chapter 12.1 slide 13)
+
+We are assuming that $\widehat{\psi_0^{MLE}}$ follows an approximately normal distribution parameterized by $Norm(\psi_0,\sqrt{ \frac{1}{nI(\psi_0)}  }).$ We make this assumption based on Theorem 12.1(cite?) because our model is a Binomial random variable which is a result of 170 independent Bernoulli trials. Our n=170 is a large enough n that we can assume our MLE $\widehat{\psi_0^{MLE}}$ follows an approximately normal distribution. We use this to set up Wald confidence intervals using this normal distribution.  
+
+$\widehat{\psi_0^{MLE}} \pm z_{\alpha/2} \widehat{SE}$
+
+Where $\alpha = 0.05$, $z_{.025}$ represents the number that cuts off the upper .025 percent of the standard normal PDF, and $\widehat{SE}$ is calculated using the variance from our normal distribution, using our $\psi_0^{MLE}$ value for $\psi_0$.
+
+$\widehat{\psi_0^{MLE}} \pm z_{.025} \sqrt{\frac{1}{nI(\widehat{\psi_0^{MLE}})}}$
+
+See appendix (Proof 1) for calculations.
+
+
+```{r, echo=FALSE, label="ci_calculation" }
+pi_0 = 8/170
+psi = (1-2*pi_0)/(1-pi_0)
+#psi - qnorm(.975)*sqrt(1/ (170^2* ((pi_0/(1-psi)^2) - (1/(2-psi)^2))  )  )
+#psi + qnorm(.975)*sqrt(1/ (170^2* ((pi_0/(1-psi)^2) - (1/(2-psi)^2))  )  )
+```
+
+
+We are 95% confident the true value of vaccine efficacy $\psi_0$ lies in the interval [0.9479, 0.9533].
+
+```{r, echo=F, label="taylor_plot", warning=F}
+loglik.binom <- function(psi, n, x){
+  if(psi > 1)
+    return(NA)
+  else{
+    loglik = log(choose(n,x)) + x*log(1-psi) - 170*log(2-psi)
+  return(loglik)
+  }
+}
+
+ml.binom <- maxLik2(loglik=loglik.binom, start = 0.3, n=170, x=8)
+
+plot(ml.binom) +
+  labs(title = "Second Order Taylor Approximation",
+       x=expression(psi))
+```
+
+See figure 1 code:
+
+We can be sure that our n is large enough to make the assumptions stated earlier by verifying that the second order Taylor series about the MLE approximates the log-likelihood function.
+
+
+We also calculated a parametric bootstrap interval for $\psi_0$. This uses our assumption of a binomial distribution with parameter $\pi_0$ and creates new samples from this distribution using simulations, using $n=170$ and our MLE estimation for $\pi_0$ as the parameters. We conducted this parametric bootstrap with 1000 simulations.
+
+
+
+## Likelihood Function $L^*(\psi)$
+
+
+We know $L(\pi)$ from our binomial distribution for T:
+
+
+$L(\pi)=\binom{n}{T}\pi^T(1-\pi)^{n-T}$
+
+
+$L^*(\psi)=\binom{n}{T}(\frac{\psi-1}{\psi-2})^T(1-\frac{\psi-1}{\psi-2})^{n-T}$ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ def of $\pi$ \ \ \ \ \ \ \ \ NOTE: $\psi$ or $\psi^*$???????????????? 
+
+
+\ 
+
+
+
+## Find MLE of $\psi_0$
+
+
+$\ell^*(\psi)=ln(\binom{n}{T}(\frac{\psi-1}{\psi-2})^T(1-\frac{\psi-1}{\psi-2})^{n-T})$
+
+
+
+$\psi_0^{MLE}=\frac{(n - 2T)}{(n-T)}$  
+
+\ 
+
+
+
+
+
+
+## Calculating P-value for likelihood ratio significance test for W
+
+
+Suppose $H_0: \psi_0 = 0.3$ and $H_1: \psi_0 \ne 0.3$ 
+
+
+
+### Chi square distribution calculation
+
+W = 2ln($\Lambda$) \ \ \ \ \ \ \ \ \ \ \ \  \ \ \ \ \ \ \ \ \ \ \ \ \  \ \ \ \ \ where $\Lambda = L(\hat\psi^{mle}_0)/L(\psi^{null}_0)$
+
+We have $\hat\psi^{mle}$ = 0.9506173
+
+So W =  2ln($L(0.9506173)/L(0.3)$) \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ $\psi^{null}= 0.3$
+
+See Proof 3
+
+\ 
+
+
+
+
+
+\ 
+
+We can now use the fact that W is a chi square distribution with degree of freedom = 1.
+
+P-value = $P(\chi^2_1 \ge 121.6012)$
+
+
+
+
+###  Empirical P-value Calculation
+
+We also calculated the empirical p-value by using our observed W test statistic and simulating 10000 T values from our binomial distribution we have. Using this we get our simulated $\psi$ value and use that alongside our null hypothesis value 0.3 to find the current simulation's likelihood W test statistic. We compute the empirical p-value by the proportion of these W statistics that are at least as large as our observed. 
+
+
+
+
+
+
+
+
+### Further Calculations
+
+Because we clearly were able to reject for $\psi=0.3$, we wanted to try a harsher test within the context of the FDA requiring even more efficacy specifically for COVID-19 vaccines.
+
+
+
+Suppose $H_0: \psi_0 = 0.5$ and $H_1: \psi_0 \ne 0.5$ 
+
+ 
+
+ 
+
+
+
+
+
+
+
+
+
+# **Bayesian Methods**
+
+Within the study, it was stated that the prior assumption for parameter $\pi$ is modeled with $Beta(0700102, 1)$ prior. Also, the vaccine efficacy used is $\psi = \frac{1-2\pi}{1-\pi}$ was estimated to be 95%, this means that by using the Bayesian Inference, they deduced that the vaccine reduces the probability of infection by 95% when compared to the placebo group. Also, the Bayesian credible interval was reported to be [90.3%, 97.6%]. We'll now conduct the Baysian inference to test these values
+
+*Prior Distribution*: The data model is stated to be a binomial model (vaccine or placebo) for the prior distribution, which is $T_\pi \sim Binom(170, \pi)$ where $\pi$ is our probability of success P(vaccine|infection).
+
+*Posterior Distribution*: The posterior distribution would be given as $Beta(\alpha_{posterior}, \beta_{posterior}) = Beta(\alpha_{prior} + X_V, n - X_V + \beta_{posterior})$ where n is the observed number of cases (170 cases) and $X_V$ is the observed number of cases in the vaccine group (8 cases). 
+
+We are interested in $\psi = \frac{1-2\pi}{1-\pi}$ which is looking at how much the vaccine reduces the risk of infection compared to the placebo. We are also interested in the credibal interval for $\psi$ and are testing $H_0: \psi = 0.3, H_a: \psi > 0.3$
+
+*Approach*: To approach this inference, we will first be retesting the $\psi$ value given by the paper of 95% to confirm the results. We will then conduct our own Bayesian inference by retrieving the prior and posterior median as our $\pi$ value. We've decided to take this approach because we believe that the probability of receiving an infection with the vaccine is low, meaning we believe the prior and posterior distribution will be strongly right skewed, hence we are using the median instead of the mean because of the impact skewness has on the mean. 
+
+We will then estimate our $\psi$ value based off prior and posterior observations and find the credible interval for $\psi$. Then, we've test $H_0: \psi = 0.3, H_a: \psi > 0.3$ to find the posterior probability that vaccine efficacy exceeds 30% using `pbeta()`. We will then analyze our results in comparison to the frequentist approach and the given report.
+
+
+
+## Bayesian Inference
+
+For the first part of our Bayesian approach, we are retesting the approach taken within the research paper then comparing our vaccine efficacy and the credible interval to the one published by the paper.
+
+Sample: Vaccine Group ($X_V = 8$ cases), Placebo Group ($X_p = 162$ cases) out of a total of $n = 170$ observed cases.
+
+Firstly, we will retest their values to ensure that the conclusion they received was correct (or about correct). Given the sample, the probability of $\pi_V = \frac{8}{17411}$ and the probability of $\pi_p = \frac{162}{17511}$. Using these values, we can get an estimate probability of $$\pi = \frac{\frac{8}{17411}}{\frac{8}{17411} + \frac{162}{17511}} = 0.0473$$ Now we can estimate the vaccine efficacy $\psi = \frac{1- 2\pi}{1-\pi} = 0.95035$ which matches the estimate of 95% given by the report.
+
+**Bayesian Approach** Now for our own inference, we will retest the vaccine efficacy and credible interval by utilizing the prior and posterior median. To initialize our Bayesian Inference, we will be analyzing the prior assumption, to see the prior probability of receiving an infection in the vaccine group (knowledge of the sample isn't involved).
+
+```{r label="prior_dist", eval=TRUE, echo=FALSE, fig.height=4, fig.width=4, fig.align='center'}
+pi_values <- seq(0,1,length.out=1000)
+prior_values <- dbeta(pi_values, shape1 = 0.700102, shape2 = 1)
+
+prior_df = data.frame(pi_values, prior_values)
+
+prior_df %>% 
+  ggplot(aes(pi_values, prior_values)) + 
+    geom_line() +
+    labs(title = "Prior Distribution (Given)")
+
+cat("Probabiliy of receiving an infection in vaccine group:", 
+    qbeta(0.5, shape1=0.700102, shape2 = 1))
+```
+
+We will be looking at the median infection probability for the central estimate. This demonstrates that our prior assumption suggests that there is a `r qbeta(0.5, shape1=0.700102, shape2 = 1)` probability of receiving an infection in the vaccine group (based off the median infection probability).
+
+We now observe that in the treatment group, there were 8 infections our of a sample size of 170 (number of total cases). This sets us up for us to find our $Beta(\alpha_{posterior}, \beta_{posterior})$ which is $Beta(\alpha_{prior} + X_V, n - X_V + \beta_{posterior})$
+
+```{r label="post_dist", eval=TRUE, echo=FALSE, fig.height=4, fig.width=7, fig.align='center'}
+posterior_values <- dbeta(pi_values, shape1=0.700102+8, shape2 = 170-8+1)
+df = data.frame(pi_values, prior_values, posterior_values)
+
+df %>% 
+  ggplot(aes(pi_values)) +
+  geom_line(aes(y = prior_values, color = "Prior Distribution")) +
+  geom_line(aes(y = posterior_values, color = "Posterior Distribution")) +
+  labs(title = "Prior vs. Posterior",
+       x = "Probability of Infection",
+       y = "Density",
+       color = "Legend")
+```
+
+```{r label="post_med", eval=TRUE, echo=FALSE}
+# median infection probability for the vaccine group
+pi_v_median = qbeta(0.5, 
+                    shape1=0.700102+8, 
+                    shape2 = 170-8+1)
+
+# vaccine efficacy
+efficacy = 1 - (2 * pi_v_median) / (1 + pi_v_median)
+```
+
+After observing the data, our posterior probability (updated probability) of receiving an infection in the vaccine group is `r pi_v_median`. Compared to the placebo, the efficacy value based off our posterior median infection probability demonstrates that the vaccine reduces risk of infection by about `r efficacy`.
+
+```{r label="cred_int", eval=TRUE, echo=FALSE}
+pi_v_lower <- qbeta(0.025, shape1=0.700102+8, shape2 = 170-8+1)
+pi_v_upper <- qbeta(0.975, shape1=0.700102+8, shape2 = 170-8+1)
+
+efficacy_lower <- 1 - (2 * pi_v_upper) / (1 - pi_v_upper)
+efficacy_upper <- 1 - (2 * pi_v_lower) / (1 - pi_v_lower)
+```
+
+
+
+**Hypothesis Testing**: Testing if the vaccine efficacy exceeds 30% based off of the posterior probability using a hypothesis test at $\alpha = 0.05$. We wish to test $H_0: \psi = 0.3, H_a: \psi > 0.3$. We will be testing this using our posterior median
+
+\begin{align*}
+  P(\psi \geq 0.3) &= P(\frac{1-2\pi}{1-\pi} \geq 0.3) \\
+  &= P(\pi \leq \frac{7}{17}) \\
+  P(\pi \leq \frac{7}{17}) &> 0.05 &\text{initialized significance level}
+\end{align*}
+
+
+
+
+
+
+
+# Results
+Present your findings. 
+
+
+For our data we can compute our Maximum Likelihood estimate (MLE) by using our observed n and t.
+
+
+$\hat \psi_0^{MLE}=\frac{(170 - 2(8))}{(170-(8))} = 0.9506173$ 
+
+
+```{r, echo=FALSE}
+set.seed(123)
+B = 1000
+x <- rbinom(n = B, size = 170, prob = pi_0)
+#we are stating that the max likelihood mle of pi = 8/170 (slide 33 chapter 11)
+boot_df <- tibble(
+  pihat = replicate(n =B,
+                    expr = mean(rbinom(n = B, size = 170, prob = pi_0))/170 ),
+  psihat = (1-2*pihat)/(1-pihat)
+)
+
+ggplot(data = boot_df,
+       mapping = aes(x=psihat) )+
+  geom_histogram(binwidth = 0.00025)+
+  labs(title = "Bootstrapped Sampling Distribution of Psi",
+       subtitle = expression(hat(pi)[0] == frac(t,170 )) ,
+       x = expression(hat(psi)[0] ==frac(1-2*hat(pi)[0],1-hat(pi)[0] )))
+
+boot_df %>% summarise(mean = mean(psihat),
+                      sd =sd(psihat))
+```
+
+This histogram shows the distribution of $\psi$ over our 1000 bootstrapped samples. We see a bell shaped curve centered around our $\widehat{\psi_0^{MLE}}$ of 0.9506. The bootstrap sampling distribution behaves how we expect the actual sampling distribution to behave, so this suggests that the distribution of $\psi$ is approximately normal and unbiased.  
+
+```{r, echo=FALSE}
+boot_df %>% summarise(lower = quantile(psihat, 0.025),
+                      upper = quantile(psihat, 0.975))
+```
+
+
+
+P-value = $P(\chi^2_1 \ge 121.6012)$
+
+```{r}
+
+pchisq(121.6012,1 ,lower.tail=F)
+
+```
+
+P-value = $2.822313*10^{-28}$
+
+
+
+```{r, label="emp_0.3" ,echo=F}
+
+
+
+n_sim <- 10000
+W_sim <- numeric(n_sim)
+
+W_obs <- 121.6012
+n <- 170
+
+# Pi value under null of psi=0.3. From pi formula in terms of psi
+psi_null <- 0.3
+pi_null <- (psi_null - 1 )/(psi_null-2) # pi=(psi-1)/(psi-2) 
+
+
+loglik <- function(t,psi) {
+  
+  return (log(choose(n, t)) + t * log((psi - 1) / (psi - 2)) +
+              (n - t) * log(1 - (psi - 1) / (psi - 2)))
+}
+
+
+
+set.seed(123)
+
+
+for (i in 1:n_sim) {
+  # Under psi = null
+  T_sim <- rbinom(1, 170, pi_null)  # Simulate T from Bin(n=170, pi=pi_null) 
+  psi_sim <- (170 - 2*T_sim) / (170 - T_sim)  # Compute MLE for each sample
+  
+  logL_mle <- loglik(T_sim, psi_sim)
+  logL_null <- loglik(T_sim, psi_null)
+  
+  W_sim[i] <- 2 * (logL_mle - logL_null)
+}
+
+# Compute empirical p-value
+empirical_p_value <- mean(W_sim >= W_obs)
+print(empirical_p_value)
+
+
+```
+
+
+
+```{r}
+
+hist(W_sim)
+
+```
+
+
+Our empirical p-value equals 0 for efficacy 0.3
+
+
+Bayesian Confidence Interval
+
+Our 95% Credible Interval: Between `r efficacy_lower` and `r efficacy_upper`
+
+
+
+```{r label="post_prob_30", eval=TRUE, echo=FALSE}
+# Finding p-value using posterior mean
+cat("Posterior probability that vaccine efficacy exceeds 30%:", 
+    pbeta(7/17, shape1=0.700102+8, shape2 = 170-8+1))
+```
+
+
+
+# Discussion / Conclusion
+Discuss / conclude here.
+
+Based on the results of our analysis, we found that this vaccine meets FDA efficacy standards and should be approved for rollout. According to our confidence intervals, the vaccine should at the minimum have 80% efficacy, with the most likely efficacy based on the study being 90 or 95%, depending on the choice between frequentist and Bayesian model. Thus, this study has disproved/approved [WHAT IS OUR HYPOTHESIS] the hypothesis that ____. 
+Using the frequentist approach based on the data from the study, we found that the 95% confidence interval for vaccine efficacy is [0.9479, 0.9533]. Using a bootstrapped sample from this data provided a similar interval of [0.9494, 0.9516]. The Bayesian approach provided more broad intervals of [0.807, 0.9525]. This is partially due to the Bayesian approach’s reliance on a prior distribution, the choosing of which can have a significant effect on the results. Pfizer’s analysis chose a relatively weak prior, while we performed an additional analysis with a more pessimistic prior distribution with respect to the efficacy in order to prove this vaccine’s efficacy beyond a reasonable doubt. Even so, all of these confidence intervals support __ this hypothesis because all efficacy rates contained in these intervals are beyond the 0.3 standard set by the FDA. Additionally we conducted a p-value calculation against the null hypothesis of an efficacy rate below 0.3, and both frequentist p-values were approximately 0, meaning that it was nearly impossible to achieve the statistics found in the study if the vaccine’s true efficacy was below 0.3. The Bayesian approach found a similar result, with a p-value of __. It is on the basis of this data that we __ the hypothesis that this vaccine’s efficacy is greater than the FDA’s standard of 0.3.
+
+
+Bayesian
+
+Because our p-value is equal to `r pbeta(7/17, shape1=0.700102+8, shape2 = 170-8+1)`, we can comfortably reject the null hypothesis that $\psi = 0.3$. This demonstrates that our result is statistically significant, suggesting that our vaccine efficacy is much higher than 0.3.
+
+
+# Bibliography
+
+
+
+Fernando P. Polack. (2020). *Safety and Efficacy of the BNT162b2 mRNA Covid-19 Vaccine*. N Engl J Med
+
+Ryding, Sara. (2021). *What is a Double-Blind Trial?*. Retrieved from https://www.news-medical.net/health/What-is-a-Double-Blind-Trial.aspx
+
+
+https://www.fiercepharma.com/vaccines/fda-to-require-at-least-50-efficacy-for-covid-19-vaccines-wsj
+
+
+
+# Appendix
+
+Proof 1:
+
+$I(\widehat{\psi_0^{MLE}}) = E[-\frac{d^2}{d\psi^2}] \ln(f_{\psi}(t))]$
+
+$\ln(f_{\psi}(t)) = \ln(\binom{170}{t}) + t\ln(1-\psi) - 170\ln(2-\psi)$
+
+$\frac{d}{d\psi} \ln(f_{\psi}(t)) =  \frac{170}{2-\psi} -\frac{t}{1-\psi}$
+
+$\frac{d^2}{d\psi^2} \ln(f_{\psi}(t)) = \frac{170}{(2-\psi)^2} -\frac{t}{(1-\psi)^2}$
+
+$I(\widehat{\psi_0^{MLE}}) = E[-\frac{d^2}{d\psi^2}] = E[\frac{t}{(1-\psi)^2} - \frac{170}{(2-\psi)^2}] =$
+
+$= \frac{E[t]}{(1-\psi)^2} - \frac{170}{(2-\psi)^2}$
+
+$= \frac{170\pi_0}{(1-\psi)^2} - \frac{170}{(2-\psi)^2}$
+
+$SE = \sqrt{\frac{1}{n^2 (\frac{\pi_0}{(1-\psi)^2} - \frac{1}{(2-\psi)^2})}}$
+
+```{r, ref.label="ci_calculation"}
+
+
+```
+
+
+Figure 1:
+
+```{r, ref.label="taylor_plot", warning=F, eval=F}
+
+
+
+```
+
+ 
+Proof 2:
+
+
+$\ell^*(\psi)=ln(\binom{n}{T})+Tln(\frac{\psi-1}{\psi-2})+(n-T)ln(1-\frac{\psi-1}{\psi-2})$
+
+
+\ 
+
+Minimize $\ell^*(\psi)$ by taking derivative and setting to zero.
+
+
+$0=\frac{d}{d\psi}(ln(\binom{n}{T})+Tln(\frac{\psi-1}{\psi-2})+(n-T)ln(1-\frac{\psi-1}{\psi-2}))$
+
+$0=\frac{d}{d\psi}(ln(\binom{n}{T})+T(ln(\psi-1)-ln(\psi-2))+(n-T)ln(\frac{\psi-2-\psi+1}{\psi-2}))$
+
+$0=(T/(\psi-1) - T/(\psi-2)+\frac{d}{d\psi}(n-T)ln(\frac{-1}{\psi-2}))$
+
+$0=(T/(\psi-1) - T/(\psi-2)+\frac{d}{d\psi}((n-T)(ln(1)-ln(2-\psi))))$
+
+$0=(T/(\psi-1) - T/(\psi-2)+\frac{d}{d\psi}((n-T)(-ln(2-\psi))))$
+
+$0=(T/(\psi-1) - T/(\psi-2)+((n-T)/(2-\psi)))$
+
+$0=(T/(\psi-1) - T/(\psi-2)-(n-T)/(\psi-2))$
+
+$(n-T)/(\psi-2)=T/(\psi-1) - T/(\psi-2)$
+
+$(n-T)=T(\psi-2)/(\psi-1) - T$
+
+$n=T(\psi-2)/(\psi-1)$
+
+$n\psi-n=T\psi-2T$
+
+$n\psi - T\psi=-2T + n$
+
+$\psi_0^{MLE}=\frac{(-2T + n)}{(n-T)}$
+
+
+
+Proof 3: 
+
+Calculate L($\hat\psi^{mle}$) = L(0.9506173):
+
+$L(0.9506173) = \binom{n}{T}(\frac{0.9506173-1}{0.9506173-2})^T(1-\frac{0.9506173-1}{0.9506173-2})^{n-T}$
+
+$L(0.9506173) = \binom{170}{8}(\frac{0.9506173-1}{0.9506173-2})^8(1-\frac{0.9506173-1}{0.9506173-2})^{170-8}$
+
+$L(0.9506173) =  0.1429881$
+
+
+\ 
+
+Calculate L($\psi^{null}$) = L(0.3):
+
+
+$L(0.3) = \binom{n}{T}(\frac{0.3-1}{0.3-2})^T(1-\frac{0.3-1}{0.3-2})^{n-T}$
+
+$L(0.3) = \binom{170}{8}(\frac{0.3-1}{0.3-2})^8(1-\frac{0.3-1}{0.3-2})^{170-8}$
+
+$L(0.3) =  5.62254*10^{-28}$
+
+
+\ 
+
+W =  2ln($\frac{0.1429881}{5.62254*10^{-28}}$)
+
+W = 121.6012
+
+
+We are able to calculate that the observed likelihood ratio test Statistic W for testing $H_0$ (for efficacy 0.3) is 121.6012.
+
+\ 
+
+W =  2ln($0.1429881/6.633005*10^{-20}$) 
+
+W = 84.4293
+
+
+We are able to calculate that the observed likelihood ratio test Statistic W for testing $H_0$ (for efficacy 0.5) is 84.4293.
+
+
+Empirical P-value calculation (efficacy 0.3)
+
+
+```{r, ref.label="emp_0.3" }
+
+
+
+
+```
+
+
+
+Proof 4:
+
+
+
+Calculate L($\psi^{null}$) = L(0.5):
+
+
+$L(0.5) = \binom{n}{T}(\frac{0.5-1}{0.5-2})^T(1-\frac{0.5-1}{0.5-2})^{n-T}$
+
+$L(0.5) = \binom{170}{8}(\frac{0.5-1}{0.5-2})^8(1-\frac{0.5-1}{0.5-2})^{170-8}$
+
+$L(0.5) =  6.633005*10^{-20}$
+
+
+\ 
+
+Since we calculated L($\hat\psi^{mle}$) = L(0.9506173) = 0.1429881 we have:
+
+
+
+W = 2ln($\Lambda$) \ \ \ \ \ \ \ \ \ \ \ \  \ \ \ \ \ \ \ \ \ \ \ \ \  \ \ \ \ \ where $\Lambda = L(\hat\psi^{mle}_0)/L(\psi^{null}_0)$
+
+W =  2ln($0.1429881/6.633005*10^{-20}$) 
+
+
+
+Empirical P-value calculation (efficacy 0.5):
+
+```{r}
+
+W_obs <- 84.4293
+
+# Pi value under null of psi=0.5. From pi formula in terms of psi
+psi_null <- 0.5
+pi_null <- (psi_null - 1 )/(psi_null-2) # pi=(psi-1)/(psi-2) 
+
+
+```
+
+
+
+```{r}
+
+set.seed(123)
+
+
+for (i in 1:n_sim) {
+  # Under psi = null
+  T_sim <- rbinom(1, 170, pi_null)  # Simulate T from Bin(n=170, pi=pi_null) 
+  psi_sim <- (170 - 2*T_sim) / (170 - T_sim)  # Compute MLE for each sample
+  
+  logL_mle <- loglik(T_sim, psi_sim)
+  logL_null <- loglik(T_sim, psi_null)
+  
+  W_sim[i] <- 2 * (logL_mle - logL_null)
+}
+
+# Compute empirical p-value
+empirical_p_value <- mean(W_sim >= W_obs)
+print(empirical_p_value)
+
+
+```
+
+
+
+## Proofs
+If applicable, include detailed mathematical derivations or additional theoretical explanations.
+
+## Code
+```{r ref.label = "intro_chart", eval=FALSE}
+```
+
+```{r ref.label = "prior_dist", eval=FALSE}
+```
+
+```{r ref.label = "post_dist", eval=FALSE}
+```
+
+```{r ref.label = "post_med", eval=FALSE}
+```
+
+```{r ref.label = "cred_int", eval=FALSE}
+```
+
+```{r ref.label = "post_prob_30", eval=FALSE}
+```
+
