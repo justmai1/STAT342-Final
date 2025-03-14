@@ -141,8 +141,8 @@ See appendix (Proof 1) for calculations.
 ```{r, echo=FALSE, label="ci_calculation" }
 pi_0 = 8/170
 psi = (1-2*pi_0)/(1-pi_0)
-#psi - qnorm(.975)*sqrt(1/ (170^2* ((pi_0/(1-psi)^2) - (1/(2-psi)^2))  )  )
-#psi + qnorm(.975)*sqrt(1/ (170^2* ((pi_0/(1-psi)^2) - (1/(2-psi)^2))  )  )
+lower_freq = psi - qnorm(.975)*sqrt(1/ (170^2* ((pi_0/(1-psi)^2) - (1/(2-psi)^2))  )  )
+upper_freq = psi + qnorm(.975)*sqrt(1/ (170^2* ((pi_0/(1-psi)^2) - (1/(2-psi)^2))  )  )
 ```
 
 
