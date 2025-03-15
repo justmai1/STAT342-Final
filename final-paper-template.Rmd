@@ -486,6 +486,25 @@ cat("Posterior probability that vaccine efficacy exceeds 30%:",
 ```
 
 
+```{r, echo=F }
+
+
+
+# Create results data frame
+results <- data.frame(
+  Approach = c("Frequentist Approach", "Bayesian Approach"),
+  Confidence_Interval_Lower = c(0.9479, 0.8070398),
+  Confidence_Interval_Higher = c(0.9533, 0.9525105),
+  P_value = c("2.822313e-28", 0)
+)
+
+# Print table using kable for basic formatting
+knitr::kable(results, caption = "Results Table")
+
+
+```
+
+
 
 # Discussion / Conclusion
 Discuss / conclude here.
