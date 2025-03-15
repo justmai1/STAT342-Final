@@ -555,8 +555,6 @@ $0=(T/(\psi-1) - T/(\psi-2)+\frac{d}{d\psi}(n-T)ln(\frac{-1}{\psi-2}))$
 
 $0=(T/(\psi-1) - T/(\psi-2)+\frac{d}{d\psi}((n-T)(ln(1)-ln(2-\psi))))$
 
-$0=(T/(\psi-1) - T/(\psi-2)+\frac{d}{d\psi}((n-T)(-ln(2-\psi))))$
-
 $0=(T/(\psi-1) - T/(\psi-2)+((n-T)/(2-\psi)))$
 
 $0=(T/(\psi-1) - T/(\psi-2)-(n-T)/(\psi-2))$
