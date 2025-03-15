@@ -454,7 +454,9 @@ hist(W_sim)
 
 
 
-Our empirical p-value equals `r empirical_p_value` for efficacy 0.3, as no simulated W even come close to our observed W.
+Our empirical p-value equals `r empirical_p_value` for efficacy 0.3, as no simulated W even came close to our observed W.
+
+We additionally found the chi square p-value for testing efficacy of 0.5 to be 3.982026e-20, while additionally having another 0 empirical p-value.
 
 
 Bayesian Confidence Interval
@@ -636,6 +638,14 @@ W = 84.4293
 
 
 We are able to calculate that the observed likelihood ratio test Statistic W for testing $H_0$ (for efficacy 0.5) is 84.4293.
+
+P-value = $P(\chi^2_1 \ge 84.4293)$
+
+```{r}
+
+pchisq(84.4293,1 ,lower.tail=F)
+
+```
 
 
 Empirical P-value calculation (efficacy 0.3)
