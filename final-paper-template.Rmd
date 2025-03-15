@@ -382,16 +382,17 @@ ggplot(data = boot_df,
        subtitle = expression(hat(pi)[0] == frac(t,170 )) ,
        x = expression(hat(psi)[0] ==frac(1-2*hat(pi)[0],1-hat(pi)[0] )))
 
-boot_df %>% summarise(mean = mean(psihat),
-                      sd =sd(psihat))
+ 
 ```
+
+We have an average of `r round(mean(boot_df$psihat),4)` and standard deviation of 0.000562 for the bootstrap.
+
+The 95 \% confidence interval for the bootstrap is [`r round(quantile(boot_df$psihat, 0.025),3)`,`r round(quantile(boot_df$psihat, 0.975),3)`]
+
 
 This histogram shows the distribution of $\psi$ over our 1000 bootstrapped samples. We see a bell shaped curve centered around our $\widehat{\psi_0^{MLE}}$ of 0.9506. The bootstrap sampling distribution behaves how we expect the actual sampling distribution to behave, so this suggests that the distribution of $\psi$ is approximately normal and unbiased.  
 
-```{r, echo=FALSE}
-boot_df %>% summarise(lower = quantile(psihat, 0.025),
-                      upper = quantile(psihat, 0.975))
-```
+ 
 
 
 
