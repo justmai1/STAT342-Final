@@ -396,15 +396,8 @@ This histogram shows the distribution of $\psi$ over our 1000 bootstrapped sampl
 
 
 
-P-value = $P(\chi^2_1 \ge 121.6012)$
+The p-value for the frequentist approach on an efficacy null of 0.3 we found to be $2.822313*10^{-28}$
 
-```{r}
-
-pchisq(121.6012,1 ,lower.tail=F)
-
-```
-
-P-value = $2.822313*10^{-28}$
 
 
 
@@ -445,7 +438,7 @@ for (i in 1:n_sim) {
 
 # Compute empirical p-value
 empirical_p_value <- mean(W_sim >= W_obs)
-print(empirical_p_value)
+
 
 
 ```
@@ -459,7 +452,9 @@ hist(W_sim)
 ```
 
 
-Our empirical p-value equals 0 for efficacy 0.3
+
+
+Our empirical p-value equals `r empirical_p_value` for efficacy 0.3, as no simulated W even come close to our observed W.
 
 
 Bayesian Confidence Interval
@@ -624,6 +619,14 @@ W = 121.6012
 
 
 We are able to calculate that the observed likelihood ratio test Statistic W for testing $H_0$ (for efficacy 0.3) is 121.6012.
+
+P-value = $P(\chi^2_1 \ge 121.6012)$
+
+```{r}
+
+pchisq(121.6012,1 ,lower.tail=F)
+
+```
 
 \ 
 
