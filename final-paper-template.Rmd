@@ -1,7 +1,7 @@
 ---
 title: "Maximum Likelihood vs. Bayesian Approaches: Comparative Inference of COVID-19 Vaccine Efficacy"
 author: "Casey Lazik, Justin Mai, Harry Schuckman"
-date: Date
+date: 3/14/2025
 output: pdf_document
 urlcolor: blue
 header-includes:
@@ -20,7 +20,8 @@ library(fastR2)
 ```
 
 # Abstract
-Write your abstract here.
+
+This paper compares the Frequentist and Bayesian approaches to comparative inferences on health data regarding COVID-19 vaccination. The focus centers around the efficacy of the two-dose vaccine (BNT162b2) on SARS-CoV-2 (“COVID-19”), where we use these statistical approaches to conduct hypothesis testing to ensure the vaccine meets the FDA standard of 30 \% efficacy. We are able to conclude this and even apply our models for less forgiving cases like 50 \% efficacy, which is specific to COVID-19 vaccines. Doing so we can see that both the Frequentist and Bayesian approaches yield similar confirming results that lead us to determine that the vaccine demonstrates sufficient efficacy under both criteria.
 
 # Keywords
 *Healthcare*, *Efficacy*, *Frequentist*, *Bayesian*
