@@ -83,9 +83,13 @@ Based off this sample, we can see that the vaccine is effective in preventing in
 
 
 
-$T\sim Binom(\pi, n=170)$
+We can model our problem by having T denote the number of people in the COVID-19 group that had the SARS vaccine.
 
-$\pi = \frac{\pi_v}{\pi_v+ \pi_p}$
+
+$T\sim Binom(\pi, n=170)$ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ n=170 from data
+
+
+$\pi = \frac{\pi_v}{\pi_v+ \pi_p}$ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ where $\pi_V$ and $\pi_p$ are the probabilities of an infection in the vaccine and placebo groups respectively.
 
 
 ## Parameters
@@ -102,19 +106,6 @@ $\pi=\frac{\psi^*-1}{\psi^*-2}$
 We then have $\pi$ as the probability of a patient having taken the vaccine given they had COVID-19 (P(Vaccine | COVID-19)).
 
 
-
-$\pi=\frac{\pi_v}{\pi_v+\pi_p}$
-
-
-
-
-We can model our problem by having T denote the number of people in the COVID-19 group that had the SARS vaccine.
-
-
-$T\sim Binom(\pi, n=170)$ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ n=170 from data
-
-
-Given $\pi = \frac{\pi_V}{\pi_V + \pi_p}$ where $\pi_V$ and $\pi_p$ are the probabilities of an infection in the vaccine and placebo groups respectively.
 
 
 
