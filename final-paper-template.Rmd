@@ -474,7 +474,7 @@ efficacy_upper <- (1 - 2 * pi_v_lower) / (1 - pi_v_lower)
 
 Our estimation for efficacy based off the Bayesian approach using the posterior median of `r pi_v_median` would be `r efficacy`. We found that our 95% posterior interval comes out to `r qbeta(c(0.025,0.975), shape1=86.04+8, shape2 = 170-8+86.04)`. We then apply these values to get the credible interval for efficacy between `r efficacy_lower` and `r efficacy_upper`
 
-After conducting a hypothesis test to test $H_0: \psi = 0.3, H_a: \psi > 0.3$, we found that the posterior probability of $\psi$ being greater than 0.3 is very high (low p-value). Finding p-value using posterior mean we had that given the efficacy is 30%, the likelihood of seeing this value we found the be `r 1-pbeta(7/17, shape1=86.04+8, shape2 = 170-8+86.04))`
+After conducting a hypothesis test to test $H_0: \psi = 0.3, H_a: \psi > 0.3$, we found that the posterior probability of $\psi$ being greater than 0.3 is very high (low p-value). Finding p-value using posterior mean we had that given the efficacy is 30%, the likelihood of seeing this value we found the be `r 1-pbeta(7/17, shape1=86.04+8, shape2 = 170-8+86.04)`
 
 
 ```{r, echo=F }
