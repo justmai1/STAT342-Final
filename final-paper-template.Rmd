@@ -405,7 +405,6 @@ for (i in 1:n_sim) {
 }
 
 empirical_p_value <- mean(W_sim >= W_obs)
-print(empirical_p_value)
 
 
 ```
@@ -670,6 +669,9 @@ Empirical P-value calculation (efficacy 0.3)
 
 
 
+```
+```{r}
+print(empirical_p_value)
 ```
 
 
