@@ -206,25 +206,15 @@ Suppose $H_0: \psi_0 = 0.3$ and $H_1: \psi_0 \ne 0.3$
 
 ### Chi square distribution calculation
 
-W = 2ln($\Lambda$) \ \ \ \ \ \ \ \ \ \ \ \  \ \ \ \ \ \ \ \ \ \ \ \ \  \ \ \ \ \ where $\Lambda = L(\hat\psi^{mle}_0)/L(\psi^{null}_0)$
+From Chapter 12 slide 22 we have our likelihood ratio test statistic W = 2ln($\Lambda$) where $\Lambda = L(\hat\psi^{mle}_0)/L(\psi^{null}_0)$.
 
-We have $\hat\psi^{mle}$ = 0.9506173
-
-So W =  2ln($L(0.9506173)/L(0.3)$) \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ $\psi^{null}= 0.3$
+Finding our $\hat\psi^{mle}$ = 0.9506173 we can solve W =  2ln($L(0.9506173)/L(0.3)$) to get our test statistic.
 
 See Proof 3
 
 \ 
 
-
-
-
-
-\ 
-
-We can now use the fact that W is a chi square distribution with degree of freedom = 1.
-
-P-value = $P(\chi^2_1 \ge 121.6012)$
+We then use the fact that W is a chi square distribution with degree of freedom = 1 to find P-value = $P(\chi^2_1 \ge 121.6012)$
 
 
 
