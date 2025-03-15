@@ -1,5 +1,5 @@
 ---
-title: "Your Paper Title Here"
+title: "Maximum Likelihood vs. Bayesian Approaches: A Comparative Analysis of COVID-19 Vaccine Efficacy"
 author: "Casey Lazik, Justin Mai, Harry Schuckman"
 date: Date
 output: pdf_document
