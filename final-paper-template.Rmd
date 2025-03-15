@@ -1,7 +1,7 @@
 ---
 title: "Maximum Likelihood vs. Bayesian Approaches: Comparative Inference of COVID-19 Vaccine Efficacy"
 author: "Casey Lazik, Justin Mai, Harry Schuckman"
-date: 3/14/2025
+date: "`r Sys.Date()`"
 output: pdf_document
 urlcolor: blue
 header-includes:
@@ -34,7 +34,7 @@ This paper compares the Frequentist and Bayesian approaches to comparative infer
 
 This research project was to analyze the efficacy of BNT162b2 COVID-19 Vaccine in comparison to the placebo.
 
-In 2020, when the Coronavirus was at its highest in terms of world impact, scientists were attempting to develop vaccines to reduce the number of COVID-19 cases. To test this, researchers randomly appointed candidates of 16 years old or older to either the placebo dosage or the vaccine dosage called BNT162b2, the ratio of placebo vs. vaccine is 1:1. Both parties (doctors and patients) were unaware of which type of they were given/taken to avoid confirmation bias, known as double-blind trials. Each research group were given 2 dosages, 21 days apart, of their respective shots. Then, after at least 7 days since the candidate receives the 2nd dosage, they were tested to see if they had been infected with COVID-19. They stopped conducting this experiment after **170 total infection cases** were seen.
+In 2020, when the Coronavirus was at its highest in terms of world impact, scientists were attempting to develop vaccines to reduce the number of COVID-19 cases. To test this, Pfizer researchers randomly appointed candidates of 16 years old or older to either the placebo dosage or the vaccine dosage called BNT162b2, the ratio of placebo vs. vaccine is 1:1. Both parties (doctors and patients) were unaware of which type of they were given/taken to avoid confirmation bias, known as double-blind trials. Each research group were given 2 dosages, 21 days apart, of their respective shots. Then, after at least 7 days since the candidate receives the 2nd dosage, they were tested to see if they had been infected with COVID-19. They stopped conducting this experiment after **170 total infection cases** were seen.
 
 By using the double-blind trials to leave the type of treatment unknown to both the doctor and the patient, it will remove an idea of "suggestion" to avoid subconscious biases. Generally, for drugs such as the BNT162b2 vaccine to be approved by governments and organizations, even though it takes time, it is a necessary research step to improve and test vaccines (Ryder).
 
@@ -75,7 +75,7 @@ vac_df %>%
   coord_polar("y", start=0)
 ```
 
-Based off this sample, we can see that the vaccine is effective in preventing infection of COVID-19 in comparison to the placebo. However, to truly test this, we will use both a likelihood inference and baysian inference to confirm this result.
+Based off this sample, we can see that the vaccine is effective in preventing infection of COVID-19 in comparison to the placebo. However, to truly test this, we will use both a likelihood inference and bayesian inference to confirm this result.
 
 # Statistical Methods
 
@@ -140,7 +140,7 @@ upper_freq = psi + qnorm(.975)*sqrt(1/(170^2*((pi_0/(1-psi)^2) - (1/(2-psi)^2)))
 
 We are 95% confident the true value of vaccine efficacy $\psi_0$ lies in the interval [0.9479, 0.9533].
 
-```{r, echo=F, label="taylor_plot", warning=F}
+```{r, echo=F, label="taylor_plot", warning=F, fig.height=4, fig.width=7}
 loglik.binom <- function(psi, n, x){
   if(psi > 1)
     return(NA)
@@ -252,7 +252,7 @@ P-value = $P(\chi^2_1 \ge 84.4293)$
 
 # **Bayesian Methods**
 
-Within the study, it was stated that the prior assumption for parameter $\pi$ is modeled with $Beta(0700102, 1)$ prior. Also, the vaccine efficacy used is $\psi = \frac{1-2\pi}{1-\pi}$ was estimated to be 95%, this means that by using the Bayesian Inference, they deduced that the vaccine reduces the probability of infection by 95% when compared to the placebo group. Also, the Bayesian credible interval was reported to be [90.3%, 97.6%]. We'll now conduct the Baysian inference to test these values
+Within the study, it was stated that the prior assumption for parameter $\pi$ is modeled with $Beta(0700102, 1)$ prior. Also, the vaccine efficacy used is $\psi = \frac{1-2\pi}{1-\pi}$ was estimated to be 95%, this means that by using the Bayesian Inference, they deduced that the vaccine reduces the probability of infection by 95% when compared to the placebo group. Also, the Bayesian credible interval was reported to be [90.3%, 97.6%]. The goal of using Bayesian Analysis is to compare our inference results to the study's results.
 
 *Prior Distribution*: The data model is stated to be a binomial model (vaccine or placebo) for the prior distribution, which is $T_\pi \sim Binom(170, \pi)$ where $\pi$ is our probability of success P(vaccine|infection).
 
@@ -262,8 +262,7 @@ We are interested in $\psi = \frac{1-2\pi}{1-\pi}$ which is looking at how much 
 
 *Approach*: To approach this inference, we will first be retesting the $\psi$ value given by the paper of 95% to confirm the results. We will then conduct our own Bayesian inference by retrieving the prior and posterior median as our $\pi$ value. We've decided to take this approach because we believe that the probability of receiving an infection with the vaccine is low, meaning we believe the prior and posterior distribution will be strongly right skewed, hence we are using the median instead of the mean because of the impact skewness has on the mean. 
 
-We will then estimate our $\psi$ value based off prior and posterior observations and find the credible interval for $\psi$. Then, we've test $H_0: \psi = 0.3, H_a: \psi > 0.3$ to find the posterior probability that vaccine efficacy exceeds 30% using `pbeta()`. We will then analyze our results in comparison to the frequentist approach and the given report.
-
+We will then estimate our $\psi$ value based off prior and posterior observations and find the credible interval for $\psi$. Then, we've test $H_0: \psi = 0.3, H_a: \psi > 0.3$ `pbeta()`. We will then analyze our results in comparison to the frequentist approach and the given report.
 
 
 ## Bayesian Inference
@@ -274,9 +273,12 @@ Sample: Vaccine Group ($X_V = 8$ cases), Placebo Group ($X_p = 162$ cases) out o
 
 Firstly, we will retest their values to ensure that the conclusion they received was correct (or about correct). Given the sample, the probability of $\pi_V = \frac{8}{17411}$ and the probability of $\pi_p = \frac{162}{17511}$. Using these values, we can get an estimate probability of $$\pi = \frac{\frac{8}{17411}}{\frac{8}{17411} + \frac{162}{17511}} = 0.0473$$ Now we can estimate the vaccine efficacy $\psi = \frac{1- 2\pi}{1-\pi} = 0.95035$ which matches the estimate of 95% given by the report.
 
-**Bayesian Approach** Now for our own inference, we will retest the vaccine efficacy and credible interval by utilizing the prior and posterior median. To initialize our Bayesian Inference, we will be analyzing the prior assumption, to see the prior probability of receiving an infection in the vaccine group (knowledge of the sample isn't involved).
+**Bayesian Approach** Now for our own inference, we will retest the vaccine efficacy and credible interval to compare our results to Pfizer's analysis by utilizing the prior and posterior median. To initialize our Bayesian Inference, we will be analyzing the prior assumption, to see the prior probability of receiving an infection in the vaccine group (knowledge of the sample isn't involved).
 
-```{r label="prior_dist", eval=TRUE, echo=FALSE, fig.height=4, fig.width=4, fig.align='center'}
+Figure 3:
+
+```{r label="prior_dist", eval=TRUE, echo=FALSE, fig.height=4, fig.width=4, fig.align='center', message=FALSE}
+# Figure 5: prior distribution
 pi_values <- seq(0,1,length.out=1000)
 prior_values <- dbeta(pi_values, shape1 = 0.700102, shape2 = 1)
 
@@ -285,6 +287,7 @@ prior_df = data.frame(pi_values, prior_values)
 prior_df %>% 
   ggplot(aes(pi_values, prior_values)) + 
     geom_line() +
+    geom_vline(xintercept = qbeta(0.5, shape1=0.700102, shape2 = 1), linetype="dotted") +
     labs(title = "Prior Distribution (Given)")
 
 cat("Probabiliy of receiving an infection in vaccine group:", 
@@ -293,16 +296,25 @@ cat("Probabiliy of receiving an infection in vaccine group:",
 
 We will be looking at the median infection probability for the central estimate. This demonstrates that our prior assumption suggests that there is a `r qbeta(0.5, shape1=0.700102, shape2 = 1)` probability of receiving an infection in the vaccine group (based off the median infection probability).
 
-We now observe that in the treatment group, there were 8 infections our of a sample size of 170 (number of total cases). This sets us up for us to find our $Beta(\alpha_{posterior}, \beta_{posterior})$ which is $Beta(\alpha_{prior} + X_V, n - X_V + \beta_{posterior})$
+We now observe that in the treatment group, there were 8 infections our of a sample size of 170 (number of total cases). This sets us up for us to find our $Beta(\alpha_{posterior}, \beta_{posterior})$ which is $Beta(\alpha_{prior} + X_V, n - X_V + \beta_{posterior})$ (Chapter 13.2, Slide 8)
 
-```{r label="post_dist", eval=TRUE, echo=FALSE, fig.height=4, fig.width=7, fig.align='center'}
+Figure 4:
+
+```{r label="post_dist", eval=TRUE, echo=FALSE, fig.height=4, fig.width=7, fig.align='center', message=FALSE}
+# Figure 4: prior and posterior distribution
 posterior_values <- dbeta(pi_values, shape1=0.700102+8, shape2 = 170-8+1)
 df = data.frame(pi_values, prior_values, posterior_values)
-
 df %>% 
   ggplot(aes(pi_values)) +
   geom_line(aes(y = prior_values, color = "Prior Distribution")) +
+  geom_vline(xintercept = qbeta(0.5, shape1=0.700102, shape2 = 1), 
+             linetype="dotted",
+             color = "#00BFC4") +
   geom_line(aes(y = posterior_values, color = "Posterior Distribution")) +
+  geom_vline(xintercept = qbeta(0.5, 
+                    shape1=0.700102+8, 
+                    shape2 = 170-8+1), linetype="dotted",
+                    color = "#F8766D") +
   labs(title = "Prior vs. Posterior",
        x = "Probability of Infection",
        y = "Density",
@@ -316,20 +328,18 @@ pi_v_median = qbeta(0.5,
                     shape2 = 170-8+1)
 
 # vaccine efficacy
-efficacy = 1 - (2 * pi_v_median) / (1 + pi_v_median)
+efficacy = (1- 2 * pi_v_median) / (1 - pi_v_median)
 ```
 
-After observing the data, our posterior probability (updated probability) of receiving an infection in the vaccine group is `r pi_v_median`. Compared to the placebo, the efficacy value based off our posterior median infection probability demonstrates that the vaccine reduces risk of infection by about `r efficacy`.
+After observing the data, our posterior probability (updated probability) of receiving an infection in the vaccine group is `r pi_v_median`. Compared to the placebo, the efficacy value based off our posterior median infection probability demonstrates that the vaccine reduces risk of infection calculated using the efficacy equation $\hat{\psi} = \frac{1-2\tilde{\pi}}{1-\tilde{\pi}}$, where $\tilde{\pi}$ represents the posterior median.
 
 ```{r label="cred_int", eval=TRUE, echo=FALSE}
 pi_v_lower <- qbeta(0.025, shape1=0.700102+8, shape2 = 170-8+1)
 pi_v_upper <- qbeta(0.975, shape1=0.700102+8, shape2 = 170-8+1)
 
-efficacy_lower <- 1 - (2 * pi_v_upper) / (1 - pi_v_upper)
-efficacy_upper <- 1 - (2 * pi_v_lower) / (1 - pi_v_lower)
+efficacy_lower <- (1 - 2 * pi_v_upper) / (1 - pi_v_upper)
+efficacy_upper <- (1 - 2 * pi_v_lower) / (1 - pi_v_lower)
 ```
-
-
 
 **Hypothesis Testing**: Testing if the vaccine efficacy exceeds 30% based off of the posterior probability using a hypothesis test at $\alpha = 0.05$. We wish to test $H_0: \psi = 0.3, H_a: \psi > 0.3$. We will be testing this using our posterior median
 
@@ -354,7 +364,7 @@ For our data we can compute our Maximum Likelihood estimate (MLE) by using our o
 $\hat \psi_0^{MLE}=\frac{(170 - 2(8))}{(170-(8))} = 0.9506173$ 
 
 
-```{r, echo=FALSE}
+```{r, echo=FALSE, fig.width=6, fig.height=4}
 set.seed(123)
 B = 1000
 x <- rbinom(n = B, size = 170, prob = pi_0)
@@ -391,7 +401,7 @@ The p-value for the frequentist approach on an efficacy null of 0.3 we found to 
 
 
 
-```{r, label="emp_0.3" ,echo=F}
+```{r, label="emp_0.3" ,echo=F, fig.width=6, fig.height=4}
 
 
 n_sim <- 10000
@@ -444,16 +454,16 @@ Our empirical p-value equals `r empirical_p_value` for efficacy 0.3, as no simul
 We additionally found the chi square p-value for testing efficacy of 0.5 to be 3.982026e-20, while additionally having another 0 empirical p-value.
 
 
-Bayesian Confidence Interval
+Bayesian:
 
-Our 95% Credible Interval: Between `r efficacy_lower` and `r efficacy_upper`
+Our estimation for efficacy based off the Bayesian approach using the posterior median of `r pi_v_median` would be `r efficacy`. We found that our 95% posterior interval comes out to `r qbeta(c(0.025,0.975), shape1=0.700102+8, shape2 = 170-8+1)`. We then apply these values to get the credible interval for efficacy between `r efficacy_lower` and `r efficacy_upper`
 
-
+After conducting a hypothesis test to test $H_0: \psi = 0.3, H_a: \psi > 0.3$, we found that the posterior probability of $\psi$ being greater than 0.3 is very high (low p-value).
 
 ```{r label="post_prob_30", eval=TRUE, echo=FALSE}
 # Finding p-value using posterior mean
-cat("Posterior probability that vaccine efficacy exceeds 30%:", 
-    pbeta(7/17, shape1=0.700102+8, shape2 = 170-8+1))
+cat("Given the efficacy is 30%, what is the likelihood of seeing this value:", 
+    1-pbeta(7/17, shape1=0.700102+8, shape2 = 170-8+1))
 ```
 
 
@@ -464,8 +474,8 @@ cat("Posterior probability that vaccine efficacy exceeds 30%:",
 # Create results data frame
 results <- data.frame(
   Approach = c("Frequentist Approach", "Bayesian Approach"),
-  Confidence_Interval_Lower = c(0.9479, 0.8070398),
-  Confidence_Interval_Higher = c(0.9533, 0.9525105),
+  Confidence_Interval_Lower = c(0.9479, round(efficacy_lower,4)),
+  Confidence_Interval_Higher = c(0.9533, round(efficacy_upper,4)),
   P_value = c("2.822313e-28", 0)
 )
 
@@ -480,20 +490,17 @@ knitr::kable(results, caption = "Approach Comparison Table")
 # Discussion / Conclusion
 Discuss / conclude here.
 
-Based on the results of our analysis, we found that this vaccine meets FDA efficacy standards and should be approved for rollout. According to our confidence intervals, the vaccine should at the minimum have 80% efficacy, with the most likely efficacy based on the study being 90 or 95%, depending on the choice between frequentist and Bayesian model. Thus, this study has disproved/approved [WHAT IS OUR HYPOTHESIS] the hypothesis that ____. 
-Using the frequentist approach based on the data from the study, we found that the 95% confidence interval for vaccine efficacy is [0.9479, 0.9533]. Using a bootstrapped sample from this data provided a similar interval of [0.9494, 0.9516]. The Bayesian approach provided more broad intervals of [0.807, 0.9525]. This is partially due to the Bayesian approach’s reliance on a prior distribution, the choosing of which can have a significant effect on the results. Pfizer’s analysis chose a relatively weak prior, while we performed an additional analysis with a more pessimistic prior distribution with respect to the efficacy in order to prove this vaccine’s efficacy beyond a reasonable doubt. Even so, all of these confidence intervals support __ this hypothesis because all efficacy rates contained in these intervals are beyond the 0.3 standard set by the FDA. Additionally we conducted a p-value calculation against the null hypothesis of an efficacy rate below 0.3, and both frequentist p-values were approximately 0, meaning that it was nearly impossible to achieve the statistics found in the study if the vaccine’s true efficacy was below 0.3. The Bayesian approach found a similar result, with a p-value of __. It is on the basis of this data that we __ the hypothesis that this vaccine’s efficacy is greater than the FDA’s standard of 0.3.
-
-
-Bayesian
-
-Because our p-value is equal to `r pbeta(7/17, shape1=0.700102+8, shape2 = 170-8+1)`, we can comfortably reject the null hypothesis that $\psi = 0.3$. This demonstrates that our result is statistically significant, suggesting that our vaccine efficacy is much higher than 0.3.
+Based on the results of our analysis, we found that this vaccine meets FDA efficacy standards and should be approved for rollout. According to our confidence intervals, the vaccine should at the minimum have 90% efficacy, with the most likely efficacy based on the study being about 95%, for both the frequentist and Bayesian model. Thus, this study has disproved/approved [WHAT IS OUR HYPOTHESIS] the hypothesis that ____. 
+Using the frequentist approach based on the data from the study, we found that the 95% confidence interval for vaccine efficacy is [0.9479, 0.9533]. Using a bootstrapped sample from this data provided a similar interval of [0.9494, 0.9516]. The Bayesian approach provided more broad intervals of [0.9035, 0.9763], which confirms Pfizer's results as to how effective BNT162b2 was in preventing COVID-19. This is partially due to the Bayesian approach’s reliance on a prior distribution, the choosing of which can have a significant effect on the results. Pfizer’s analysis chose a relatively weak prior, while we performed an additional analysis with a more pessimistic prior distribution with respect to the efficacy in order to prove this vaccine’s efficacy beyond a reasonable doubt. Even so, all of these confidence intervals support __ this hypothesis because all efficacy rates contained in these intervals are beyond the 0.3 standard set by the FDA. Additionally we conducted a p-value calculation against the null hypothesis of an efficacy rate below 0.3, and both frequentist p-values were approximately 0, meaning that it was nearly impossible to achieve the statistics found in the study if the vaccine’s true efficacy was below 0.3. The Bayesian approach found a similar result, with a p-value of __. It is on the basis of this data that we __ the hypothesis that this vaccine’s efficacy is greater than the FDA’s standard of 0.3.
 
 
 # Bibliography
 
-
-
 Fernando P. Polack. (2020). *Safety and Efficacy of the BNT162b2 mRNA Covid-19 Vaccine*. N Engl J Med
+
+Grove, R. (2025). *12: Likelihood Inference*. STAT 342, University of Washington.
+
+Grove, R. (2025). *13.2: Bayes Inference*. STAT 342, University of Washington.
 
 Ryding, Sara. (2021). *What is a Double-Blind Trial?*. Retrieved from https://www.news-medical.net/health/What-is-a-Double-Blind-Trial.aspx
 
@@ -502,6 +509,11 @@ Sagonowsky, Eric. (2020). *FDA will require 50% efficacy for COVID-19 vaccines. 
 
 
 # Appendix
+
+Pie Chart: 
+
+```{r ref.label = "intro_chart", eval=FALSE}
+```
 
 Proof 1:
 
@@ -704,27 +716,22 @@ print(empirical_p_value)
 
 ```
 
-
-
-## Proofs
-If applicable, include detailed mathematical derivations or additional theoretical explanations.
-
-## Code
-```{r ref.label = "intro_chart", eval=FALSE}
-```
-
+Figure 3:
 ```{r ref.label = "prior_dist", eval=FALSE}
 ```
 
+Figure 4:
 ```{r ref.label = "post_dist", eval=FALSE}
 ```
 
+Posterior median and efficacy calculation
 ```{r ref.label = "post_med", eval=FALSE}
 ```
 
+Credible interval calculation
 ```{r ref.label = "cred_int", eval=FALSE}
 ```
 
+Hypothesis testing p-value
 ```{r ref.label = "post_prob_30", eval=FALSE}
 ```
-
