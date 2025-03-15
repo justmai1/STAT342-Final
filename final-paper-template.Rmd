@@ -357,7 +357,6 @@ efficacy_upper <- 1 - (2 * pi_v_lower) / (1 - pi_v_lower)
 
 
 # Results
-Present your findings. 
 
 
 For our data we can compute our Maximum Likelihood estimate (MLE) by using our observed n and t.
@@ -423,9 +422,7 @@ n <- 170
 psi_null <- 0.3
 pi_null <- (psi_null - 1 )/(psi_null-2) # pi=(psi-1)/(psi-2) 
 
-
-loglik <- function(t,psi) {
-  
+loglik <- function(t,psi) {  
   return (log(choose(n, t)) + t * log((psi - 1) / (psi - 2)) +
               (n - t) * log(1 - (psi - 1) / (psi - 2)))
 }
