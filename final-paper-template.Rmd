@@ -169,10 +169,8 @@ We also calculated a parametric bootstrap interval for $\psi_0$. This uses our a
 ## Likelihood Function $L^*(\psi)$
 
 
-We know $L(\pi)$ from our binomial distribution for T:
+We know $L(\pi)$, since we have a binomial distribution for T. $L(\pi)=\binom{n}{T}\pi^T(1-\pi)^{n-T}$. We used this fact and our parameter for $\pi$ given in terms of $\psi$ to rewrite it as the likelihood function for $\psi$:
 
-
-$L(\pi)=\binom{n}{T}\pi^T(1-\pi)^{n-T}$
 
 
 $L^*(\psi)=\binom{n}{T}(\frac{\psi-1}{\psi-2})^T(1-\frac{\psi-1}{\psi-2})^{n-T}$ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ def of $\pi$
@@ -190,6 +188,8 @@ $\ell^*(\psi)=ln(\binom{n}{T}(\frac{\psi-1}{\psi-2})^T(1-\frac{\psi-1}{\psi-2})^
 
 
 $\psi_0^{MLE}=\frac{(n - 2T)}{(n-T)}$  
+
+See Proof 2
 
 \ 
 
@@ -250,7 +250,7 @@ Because we clearly were able to reject for $\psi=0.3$, we wanted to try a harshe
 Suppose $H_0: \psi_0 = 0.5$ and $H_1: \psi_0 \ne 0.5$ 
 
  
-
+P-value = $P(\chi^2_1 \ge 84.4293)$
  
 
 
