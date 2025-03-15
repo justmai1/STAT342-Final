@@ -36,7 +36,7 @@ This research project was to analyze the efficacy of BNT162b2 COVID-19 Vaccine i
 
 In 2020, when the Coronavirus was at its highest in terms of world impact, scientists were attempting to develop vaccines to reduce the number of COVID-19 cases. To test this, Pfizer researchers randomly appointed candidates of 16 years old or older to either the placebo dosage or the vaccine dosage called BNT162b2, the ratio of placebo vs. vaccine is 1:1. Both parties (doctors and patients) were unaware of which type of they were given/taken to avoid confirmation bias, known as double-blind trials. Each research group were given 2 dosages, 21 days apart, of their respective shots. Then, after at least 7 days since the candidate receives the 2nd dosage, they were tested to see if they had been infected with COVID-19. They stopped conducting this experiment after **170 total infection cases** were seen.
 
-By using the double-blind trials to leave the type of treatment unknown to both the doctor and the patient, it will remove an idea of "suggestion" to avoid subconscious biases. Generally, for drugs such as the BNT162b2 vaccine to be approved by governments and organizations, even though it takes time, it is a necessary research step to improve and test vaccines (Ryder).
+By using the double-blind trials to leave the type of treatment unknown to both the doctor and the patient, it will remove an idea of "suggestion" to avoid subconscious biases. Generally, for drugs such as the BNT162b2 vaccine to be approved by governments and organizations, even though it takes time, it is a necessary research step to improve and test vaccines (Ryding).
 
 The observed number of cases for each treatment group are as follows
 
@@ -76,7 +76,7 @@ vac_df %>%
 ```
 
 
-In this paper, we intend to use this sample to test the efficacy of this vaccine. More specifically, we will test if this vaccine exceeds the FDA standard of at least 30% efficacy. In order to do this, we will assume the hypothesis that this vaccine does not reach the FDA efficacy standard. We will use this hypothesis because we want to test this vaccine as rigorously is possible due to its importance to the public's health. As we can see in the figure above, the sample data indicates that the vaccine was effective. The question is as to whether this is enough to disprove our assumed hypothesis. We will be answering this question using both frequentist and Bayesian approaches, and comparing the approaches as well as comparing our results to the Pfizer and BioNTech paper.
+In this paper, we intend to use this sample to test the efficacy of this vaccine. More specifically, we will test if this vaccine exceeds the FDA standard of at least 30% efficacy and FDA COVID-19 vaccine standard of 50% (Sagonowsky). In order to do this, we will assume the hypothesis that this vaccine does not reach the FDA efficacy standard. We will use this hypothesis because we want to test this vaccine as rigorously is possible due to its importance to the public's health. As we can see in the figure above, the sample data indicates that the vaccine was effective. The question is as to whether this is enough to disprove our assumed hypothesis. We will be answering this question using both frequentist and Bayesian approaches, and comparing the approaches as well as comparing our results to the Pfizer and BioNTech paper.
 
 # Statistical Methods
 
