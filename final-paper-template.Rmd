@@ -242,7 +242,7 @@ We also calculated the empirical p-value by using our observed W test statistic 
 
 ### Further Calculations
 
-Because we clearly were able to reject for $\psi=0.3$, we wanted to try a harsher test within the context of the FDA requiring even more efficacy specifically for COVID-19 vaccines.
+Because we clearly were able to reject for $\psi=0.3$, we wanted to try a harsher test within the context of the FDA requiring even more efficacy specifically for COVID-19 vaccines. Sagonowsky explains that the FDA required at least 50% efficacy for COVID-19 vaccines.
 
 
 
@@ -452,7 +452,7 @@ print(empirical_p_value)
 
 
 
-```{r}
+```{r, echo=F}
 
 hist(W_sim)
 
