@@ -404,7 +404,6 @@ The p-value for the frequentist approach on an efficacy null of 0.3 we found to 
 ```{r, label="emp_0.3" ,echo=F}
 
 
-
 n_sim <- 10000
 W_sim <- numeric(n_sim)
 
@@ -420,10 +419,7 @@ loglik <- function(t,psi) {
               (n - t) * log(1 - (psi - 1) / (psi - 2)))
 }
 
-
-
 set.seed(123)
-
 
 for (i in 1:n_sim) {
   # Under psi = null
@@ -436,9 +432,8 @@ for (i in 1:n_sim) {
   W_sim[i] <- 2 * (logL_mle - logL_null)
 }
 
-# Compute empirical p-value
 empirical_p_value <- mean(W_sim >= W_obs)
-
+print(empirical_p_value)
 
 
 ```
