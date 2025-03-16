@@ -73,7 +73,7 @@ vac_df %>%
   ggplot(aes(x = "", y = infected_ratio, fill = Group)) + 
   geom_bar(stat="identity", width=1, color="white") +
   coord_polar("y", start=0) +
-  title("BNT162b2 vs Placebo Infection Rate Comparison")
+  ggtitle("BNT162b2 vs Placebo Infection Rate Comparison")
 ```
 
 
