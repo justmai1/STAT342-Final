@@ -373,7 +373,7 @@ The p-value for the frequentist approach on an efficacy null of 0.3 we found to 
 B <- 1500
 W_sim <- numeric(B)
 
-W_obs <- 121.6012
+obs_W <- 121.6012
 n <- 170
 
 # Pi value under null of psi=0.3. From pi formula in terms of psi
@@ -398,7 +398,7 @@ for (i in 1:B) {
   W_sim[i] <- 2 * (logL_mle - logL_null)
 }
 
-empirical_p_value <- mean(W_sim >= W_obs)
+empirical_p_value <- mean(W_sim >= obs_W)
 
 
 ```
@@ -694,7 +694,7 @@ Empirical P-value calculation (efficacy 0.5):
 
 ```{r}
 
-W_obs <- 84.4293
+obs_W <- 84.4293
 
 # Pi value under null of psi=0.5. From pi formula in terms of psi
 psi_null <- 0.5
@@ -719,7 +719,7 @@ for (i in 1:B) {
   W_sim[i] <- 2 * (logL_mle - logL_null)
 }
 
-empirical_p_value <- mean(W_sim >= W_obs)
+empirical_p_value <- mean(W_sim >= obs_W)
 print(empirical_p_value)
 
 
