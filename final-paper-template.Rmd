@@ -177,7 +177,7 @@ $L^*(\psi)=\binom{n}{T}(\frac{\psi-1}{\psi-2})^T(1-\frac{\psi-1}{\psi-2})^{n-T}$
 
 ## Find MLE of $\psi_0$
 
-Now that we've gotten the likelihood function for $\psi$, we can find the log-likelihood function to be $\ell^*(\psi)=ln(\binom{n}{T}(\frac{\psi-1}{\psi-2})^T(1-\frac{\psi-1}{\psi-2})^{n-T})$. We can then maximize it by taking the derivative and setting it equal to zero. This will produce our MLE equation, which is key for how we go about estimating $\psi$.
+Now that we have the likelihood function for $\psi$, we can find the log-likelihood function to be $\ell^*(\psi)=ln(\binom{n}{T}(\frac{\psi-1}{\psi-2})^T(1-\frac{\psi-1}{\psi-2})^{n-T})$. We can then maximize it by taking the derivative and setting it equal to zero. This will produce our MLE equation, which is key for how we go about estimating $\psi$.
 
 
 
