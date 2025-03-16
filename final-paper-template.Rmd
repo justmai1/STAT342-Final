@@ -76,7 +76,7 @@ vac_df %>%
 ```
 
 
-In this paper, we intend to use this sample to test the efficacy of this vaccine. More specifically, we will test if this vaccine exceeds the FDA standard of at least 30% efficacy and FDA COVID-19 vaccine standard of 50% (Sagonowsky). In order to do this, we will assume the hypothesis that this vaccine does not reach the FDA efficacy standard. We will use this hypothesis because we want to test this vaccine as rigorously is possible due to its importance to the public's health. As we can see in the figure above, the sample data indicates that the vaccine was effective. The question is as to whether this is enough to disprove our assumed hypothesis. We will be answering this question using both frequentist and Bayesian approaches, and comparing the approaches as well as comparing our results to the Pfizer and BioNTech paper.
+In this paper, we intend to use this sample to test the efficacy of this vaccine. More specifically, we will test if this vaccine exceeds the FDA standard of at least 30% efficacy. In order to do this, we will assume the hypothesis that this vaccine does not reach the FDA efficacy standard. We will use this hypothesis because we want to test this vaccine as rigorously is possible due to its importance to the public's health, as evidenced by the FDA's plan to demand 50% efficacy for the COVID-19 vaccine(Sagonowsky). Due to this, we will also include a test for this 50% efficacy figure, although our main focus is on the 30% efficacy standard. As we can see in the figure above, the sample data indicates that the vaccine was effective. The question is as to whether this is enough to disprove our assumed hypothesis. We will be answering this question using both frequentist and Bayesian approaches, and comparing the approaches as well as comparing our results to the Pfizer and BioNTech paper.
 
 # Statistical Methods
 
@@ -156,7 +156,6 @@ plot(ml.binom) +
        x=expression(psi))
 ```
 
-See figure 1 code:
 
 We can be sure that our n is large enough to make the assumptions stated earlier by verifying that the second order Taylor series about the MLE approximates the log-likelihood function.
 
@@ -323,6 +322,8 @@ We now observe that in the treatment group, there were 8 infections our of a sam
 
 
 # Results
+
+We are 95% confident the true value of vaccine efficacy $\psi_0$ lies in the interval [0.9479, 0.9533] using the frequentist method of Wald confidence intervals.
 
 
 For our data we can compute our Maximum Likelihood estimate (MLE) by using our observed n and t.
@@ -494,7 +495,7 @@ knitr::kable(results, caption = "Approach Comparison Table")
 
 # Discussion / Conclusion
 
-Based on the results of our analysis, we found that this vaccine meets FDA efficacy standards and should be approved for rollout. According to our confidence intervals, the vaccine should at the minimum have 52% efficacy. Additionally, both the frequentist and Bayesian approaches produces minscule p-values, indicating that it is near impossible for this data to have been produced by a vaccine with 0 efficacy. Thus, this study has disproved the hypothesis that the vaccine doesn't meet FDA standards.
+Based on the results of our analysis, we found that this vaccine meets FDA efficacy standards and should be approved for rollout. According to our confidence intervals, the vaccine should at the minimum have 52% efficacy. Additionally, both the frequentist and Bayesian approaches produces minscule p-values, indicating that it is near impossible for this data to have been produced by a vaccine with less than 0 .3efficacy. Thus, this study has disproved the hypothesis that the vaccine doesn't meet FDA standards.
 
 Using the frequentist approach based on the data from the study, we found that the 95% confidence interval for vaccine efficacy is [0.9479, 0.9533]. Using a bootstrapped sample from this data provided a similar interval of [0.9494, 0.9516]. The Bayesian approach provided a lower efficacy interval of [0.5221, 0.7031]. This is mostly due to the Bayesian approach’s reliance on a prior distribution, the choosing of which can have a significant effect on the results. Pfizer’s analysis chose a relatively weak prior, getting them a credible interval of [90.3%, 97.6%]. We decided to perform our analysis with a stronger prior, strongly stating that the vaccine is not effective in preventing infection. Our prior yields a much lower credible interval in comparison, however this interval is still above 50% efficacy which demonstrates strong evidence of the vaccine's efficacy. Even though the Bayesian approach's credible interval is lower than the frequentist's, all of these confidence intervals support rejecting our hypothesis because all efficacy rates contained in these intervals are beyond the 0.3 standard set by the FDA. Additionally we conducted a p-value calculation against the null hypothesis of an efficacy rate below 0.3, and both frequentist p-values as well as the Bayesian were approximately 0, meaning that it was nearly impossible to achieve the statistics found in the study if the vaccine’s true efficacy was below 0.3 __. It is on the basis of this data that we reject __ the hypothesis that this vaccine’s efficacy is smaller than the FDA’s standard of 0.3. It is clear based on our analysis that this vaccine exceeds FDA efficacy standards.
 
