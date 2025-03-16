@@ -258,12 +258,9 @@ $P(\psi \geq 0.3) = P(\pi \leq \frac{0.3-1}{0.3-2})=  P(\pi \leq \frac{7}{17})= 
 
 This ensures that our prior will be centered around an efficacy of 0, and states that in our assumed prior distribution there is only a 1% chance of finding a FDA approved efficacy.
 
-```{r, echo=F, label="prior"}
-beta.select(quantile1 = list(p=0.5, x=1/2),
-            quantile2 = list(p=0.01, x=7/17))
-```
-The Beta distribution that satisfies these two inequalities is $Beta(86.04,86.04)$
+The Beta distribution that satisfies these two inequalities is Beta(`r beta.select(quantile1 = list(p=0.5, x=1/2), quantile2 = list(p=0.01, x=7/17))[1]` , `r beta.select(quantile1 = list(p=0.5, x=1/2), quantile2 = list(p=0.01, x=7/17))[2]`), see prior calculation in appendix.
 
+ 
 *Posterior Distribution*: The posterior distribution would be given as $Beta(\alpha_{posterior}, \beta_{posterior}) = Beta(\alpha_{prior} + X_V, n - X_V + \beta_{posterior})$ where n is the observed number of cases (170 cases) and $X_V$ is the observed number of cases in the vaccine group (8 cases). 
 
 We are interested in $\psi = \frac{1-2\pi}{1-\pi}$ which is looking at how much the vaccine reduces the risk of infection compared to the placebo. We are also interested in the credible interval for $\psi$ and are testing $H_0: \psi = 0.3, H_a: \psi > 0.3$
@@ -737,7 +734,9 @@ Figure 4:
 ```
 
 Prior distribution calculation
-```{r ref.label="prior", eval=FALSE}
+```{r  eval=FALSE}
+beta.select(quantile1 = list(p=0.5, x=1/2),
+            quantile2 = list(p=0.01, x=7/17))
 ```
 
 Posterior median and efficacy calculation
