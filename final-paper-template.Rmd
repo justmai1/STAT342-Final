@@ -72,7 +72,8 @@ vac_df %>%
   mutate(infected_ratio = Cases/170) %>% 
   ggplot(aes(x = "", y = infected_ratio, fill = Group)) + 
   geom_bar(stat="identity", width=1, color="white") +
-  coord_polar("y", start=0)
+  coord_polar("y", start=0) +
+  title("BNT162b2 vs Placebo Infection Rate Comparison")
 ```
 
 
@@ -139,7 +140,7 @@ upper_freq = psi + qnorm(.975)*sqrt(1/(170^2*((pi_0/(1-psi)^2) - (1/(2-psi)^2)))
 
 We are 95% confident the true value of vaccine efficacy $\psi_0$ lies in the interval [0.9479, 0.9533].
 
-```{r, echo=F, label="taylor_plot", warning=F, fig.height=4, fig.width=7}
+```{r, echo=F, label="taylor_plot", warning=F, fig.height=4, fig.width=7, fig.align='center'}
 loglik.binom <- function(psi, n, x){
   if(psi > 1)
     return(NA)
@@ -327,7 +328,7 @@ For our data we can compute our Maximum Likelihood estimate (MLE) by using our o
 $\hat \psi_0^{MLE}=\frac{(170 - 2(8))}{(170-(8))} = 0.9506173$ 
 
 
-```{r, echo=FALSE, fig.width=6, fig.height=4}
+```{r, echo=FALSE, fig.width=6, fig.height=4, fig.align='center'}
 set.seed(123)
 B = 1000
 x <- rbinom(n = B, size = 170, prob = pi_0)
