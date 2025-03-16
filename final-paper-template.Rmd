@@ -370,8 +370,8 @@ The p-value for the frequentist approach on an efficacy null of 0.3 we found to 
 ```{r, label="emp_0.3" ,echo=F, fig.width=6, fig.height=4}
 
 
-n_sim <- 10000
-W_sim <- numeric(n_sim)
+B <- 1500
+W_sim <- numeric(B)
 
 W_obs <- 121.6012
 n <- 170
@@ -387,7 +387,7 @@ loglik <- function(t,psi) {
 
 set.seed(123)
 
-for (i in 1:n_sim) {
+for (i in 1:B) {
   # Under psi = null
   T_sim <- rbinom(1, 170, pi_null)  # Simulate T from Bin(n=170, pi=pi_null) 
   psi_sim <- (170 - 2*T_sim) / (170 - T_sim)  # Compute MLE for each sample
@@ -708,7 +708,7 @@ pi_null <- (psi_null - 1 )/(psi_null-2) # pi=(psi-1)/(psi-2)
 
 set.seed(123)
 
-for (i in 1:n_sim) {
+for (i in 1:B) {
   # Under psi = null
   T_sim <- rbinom(1, 170, pi_null)  # Simulate T from Bin(n=170, pi=pi_null) 
   psi_sim <- (170 - 2*T_sim) / (170 - T_sim)  # Compute MLE for each sample
