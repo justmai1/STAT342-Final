@@ -413,7 +413,7 @@ hist(W_sim)
 
 
 
-Our empirical p-value equals `r empirical_p_value` for efficacy 0.3. No simulated W even came close to our observed W.
+Our empirical p-value is `r empirical_p_value` for efficacy 0.3. No simulated W even came close to our observed W.
 
 We additionally found the chi square p-value for testing efficacy of 0.5 to be 3.982026e-20, while additionally having another 0 empirical p-value.
 
