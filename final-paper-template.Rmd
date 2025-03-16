@@ -292,7 +292,8 @@ prior_df = data.frame(pi_values, prior_values)
 prior_df %>% 
   ggplot(aes(pi_values, prior_values)) + 
     geom_line() +
-    geom_vline(xintercept = qbeta(0.5, shape1=86.04, shape2 = 86.04), linetype="dotted") +
+    geom_vline(xintercept = qbeta(0.5, shape1=86.04, shape2 = 86.04), 
+    linetype="dotted") +
     labs(title = "Prior Distribution (Given)")
 
 cat("Probabiliy of receiving an infection in vaccine group:", 
