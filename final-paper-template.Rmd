@@ -749,7 +749,7 @@ Credible interval calculation
 ```
 
 Hypothesis testing p-value
-```{r ref.label = "post_prob_30", eval=FALSE}
+```{r  eval=FALSE}
 # Finding p-value using posterior mean
 cat("Given the efficacy is 30%, what is the likelihood of seeing this value:", 
     1-pbeta(7/17, shape1=86.04+8, shape2 = 170-8+86.04))
