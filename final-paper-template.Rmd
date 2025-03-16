@@ -270,7 +270,7 @@ For the first part of our Bayesian approach, we are retesting the approach taken
 
 Sample: Vaccine Group ($X_V = 8$ cases), Placebo Group ($X_p = 162$ cases) out of a total of $n = 170$ observed cases.
 
-Firstly, we will retest their values to ensure that the conclusion they received was correct (or about correct). Given the sample, the probability of $\pi_V = \frac{8}{17411}$ and the probability of $\pi_p = \frac{162}{17511}$. Using these values, we can get an estimate probability of $$\pi = \frac{\frac{8}{17411}}{\frac{8}{17411} + \frac{162}{17511}} = 0.0473$$ Now we can estimate the vaccine efficacy $\psi = \frac{1- 2\pi}{1-\pi} = 0.95035$ which matches the estimate of 95% given by the report.
+Firstly, we will retest their values to ensure that the conclusion they received was correct (or about correct). Given the sample, the probability of $\pi_V = \frac{8}{17411}$ and the probability of $\pi_p = \frac{162}{17511}$. Using these values, we can get an estimate probability of $$\pi = \frac{\frac{8}{17411}}{\frac{8}{17411} + \frac{162}{17511}} = 0.0473$$ and estimate the vaccine efficacy $\psi = \frac{1- 2\pi}{1-\pi} = 0.95035$, matching the 95% estimate of the report.
 
 **Bayesian Approach** Now for our own inference, we will test the vaccine efficacy and credible interval to compare our results to Pfizer's analysis by utilizing the prior and posterior median using a prior of $Beta(86.04, 86.04)$. To initialize our Bayesian Inference, we will be analyzing the prior assumption, to see the prior probability of receiving an infection in the vaccine group (knowledge of the sample isn't involved).
 
