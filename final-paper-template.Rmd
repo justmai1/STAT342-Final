@@ -189,8 +189,6 @@ $\psi_0^{MLE}=\frac{(n - 2T)}{(n-T)}$
 
 See Proof 2
 
-\ 
-
 
 
 
@@ -208,8 +206,7 @@ From Chapter 12 slide 22 we have our likelihood ratio test statistic W = 2ln($\L
 Finding our $\hat\psi^{mle}$ = 0.9506173 we can solve W =  2ln($L(0.9506173)/L(0.3)$) to get our test statistic.
 
 See Proof 3
-
-\ 
+ 
 
 We then use the fact that W is a chi square distribution with degree of freedom = 1 to find P-value = $P(\chi^2_1 \ge 121.6012)$
 
@@ -411,7 +408,7 @@ empirical_p_value <- mean(W_sim >= W_obs)
 
 
 
-```{r, echo=F}
+```{r, echo=F, fig.width=6, fig.height=4}
 
 hist(W_sim)
 
