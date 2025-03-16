@@ -177,7 +177,7 @@ $L^*(\psi)=\binom{n}{T}(\frac{\psi-1}{\psi-2})^T(1-\frac{\psi-1}{\psi-2})^{n-T}$
 
 ## Find MLE of $\psi_0$
 
-Now that we have the likelihood function for $\psi$, we can find the log-likelihood function to be $\ell^*(\psi)=ln(\binom{n}{T}(\frac{\psi-1}{\psi-2})^T(1-\frac{\psi-1}{\psi-2})^{n-T})$. We can then maximize it by taking the derivative and setting it equal to zero. This will produce our MLE equation, which is key for how we go about estimating $\psi$.
+Now that we have the likelihood function for $\psi$, we can find the log-likelihood function to be $\ell^*(\psi)=ln(\binom{n}{T}(\frac{\psi-1}{\psi-2})^T(1-\frac{\psi-1}{\psi-2})^{n-T})$. We can then maximize it by taking the derivative and setting it equal to 0. This will produce our MLE equation, which is key for how we go about estimating $\psi$.
 
 
 
@@ -204,8 +204,7 @@ Finding our $\hat\psi^{mle}$ = 0.9506173 we can solve W =  2ln($L(0.9506173)/L(0
 See Proof 3
  
 
-We then use the fact that W is a chi square distribution with degree of freedom = 1 to find P-value = $P(\chi^2_1 \ge 121.6012)$
-
+We then use the fact that W $\approx \chi^2_1$   to find P-value = $P(\chi^2_1 \ge 121.6012)$
 
 
 
