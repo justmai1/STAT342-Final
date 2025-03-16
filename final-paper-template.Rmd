@@ -181,9 +181,8 @@ Now that we have the likelihood function for $\psi$, we can find the log-likelih
 
 
 
-$\psi_0^{MLE}=\frac{(n - 2T)}{(n-T)}$  
+$\psi_0^{MLE}=\frac{(n - 2T)}{(n-T)}$  \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ See Proof 2 
 
-See Proof 2
 
 
 
